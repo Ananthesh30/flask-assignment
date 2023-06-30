@@ -1,0 +1,37 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "postgres"
+  namespace: "ananthesh-test"
+  labels:
+    app: "postgres"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "postgres"
+  template:
+    metadata:
+      labels:
+        app: "postgres"
+    spec:
+      containers:
+      - name: "postgres"
+        image: "bitnami/postgresql:latest"
+        env:
+        - name: "POSTGRESQL_DATABASE"
+          value: "platformatory_test"
+        - name: "POSTGRESQL_USERNAME"
+          value: "postgres_user"
+        - name: "POSTGRESQL_PASSWORD"
+          value: "postgres"
+        ports:
+          - containerPort: 5432
+            name: postgres
+        volumeMounts:
+          - name: postgres-storage
+            mountPath: /var/lib/postgresql/db-data
+      volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: postgres-pv-claim
