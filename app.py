@@ -7,7 +7,7 @@ app = Flask(__name__)
 db_config = yaml.safe_load(open('database.yaml'))
 app.config['SQLALCHEMY_DATABASE_URI'] = db_config['uri'] 
 db = SQLAlchemy(app)
-# CORS(app)
+CORS(app)
 
 class User(db.Model):
     __tablename__ = "users"
